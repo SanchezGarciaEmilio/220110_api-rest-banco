@@ -55,10 +55,30 @@ class DatoRoutes {
             db.desconectarBD()
     }
 
+    private actualizarCliente = async (req: Request, res: Response) => {
+        await db.conectarBD()
+                const id = req.params.id
+                const comercial = req.params.comercial
+                await Cli.findOneAndUpdate(
+                    { _id: id },
+                    {
+                        _comercial: comercial,
+                    },
+                    {
+                        runValidators: true
+                    }
+                )
+                .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
+                .catch((err: any) => res.send('Error: ' + err))
+            
+        await db.desconectarBD()
+    }
+
     misRutas() {
         this._router.get('/', this.index)
         this._router.get('/buscar/:id', this.buscarComercial)
         this._router.post('/crearCliente', this.crearCliente)
+        this._router.put('/actualizar/:id/:comercial', this.actualizarCliente)
     }
 }
 
