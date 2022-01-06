@@ -3,8 +3,10 @@ import { direccion } from "../classes/empleados/empleado";
 //schemas por subclase
 const empleadoSchema = new Schema({
   _id: {
-    type: String,
-  },
+        type: String,
+        required: true,
+        unique: true
+    },
   _tipoObjeto: {
     type: String,
   },

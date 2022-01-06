@@ -4,6 +4,8 @@ import { Schema, model } from "mongoose";
 const clienteSchema = new Schema({
   _id: {
     type: String,
+    required: true,
+    unique: true
   },
   _tipoObjeto: {
     type: String,
@@ -19,12 +21,15 @@ const clienteSchema = new Schema({
   },
   _capital: {
     type: Number,
+    minimun: 0
   },
   _ingresos: {
     type: Number,
+    minimun: 0
   },
   _plan: {
     type: String,
+    required: [ "1", "2", "3" ]
   },
   _comercial: {
     type: String,

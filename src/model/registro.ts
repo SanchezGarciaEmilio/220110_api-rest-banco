@@ -9,7 +9,7 @@ const registroSchema = new Schema({
       type: String
   },
   _capitalCliente: {
-      type: Number
+      type: Number,
   },
   _prestamo: {
       type: Number
