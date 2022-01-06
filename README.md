@@ -38,7 +38,14 @@ Finalmente en la carpeta **routes** encontramos las rutas de web de nuestra API 
 
 Dentro de las funciones encontramos las siguientes:
 ```
-
+buscarComercial
+crearCliente
+actualizarCliente
+borrarCliente
+calcularSalario
+calcularRenta
+mediaGanancia
+crearPrestamo
 ```
 
 ###
