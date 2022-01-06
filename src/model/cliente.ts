@@ -20,8 +20,7 @@ const clienteSchema = new Schema({
     type: {numero: String, calle: String},
   },
   _capital: {
-    type: Number,
-    minimun: 0
+    type: Number
   },
   _ingresos: {
     type: Number,

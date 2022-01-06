@@ -25,6 +25,7 @@ const empleadoSchema = new Schema({
   },
   _sueldo: {
     type: Number,
+    minimun: 0
   },
   _fecha: {
     type: Date,
