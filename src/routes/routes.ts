@@ -1,7 +1,8 @@
 import { Request, Response, Router } from 'express'
 import { db } from '../database/database'
-import { Cli } from '../model/cliente'
+import { Cli, tCliente2 } from '../model/cliente'
 import { Emp } from '../model/empleado'
+import { Reg, tRegistro } from '../model/registro'
 import { Empleado } from "../classes/empleados/empleado";
 import { Directivo } from "../classes/empleados/directivo";
 import { Limpiador } from "../classes/empleados/limpiador";
@@ -171,6 +172,109 @@ class DatoRoutes {
         await db.desconectarBD()
     }
 
+    private mediaGanancia = async (req: Request, res: Response) => {
+        await db.conectarBD()
+
+        const id = req.params.id
+        let tmpPersona: Persona
+        let tmpComercial: Comercial
+        const query = await Cli.findOne({ _id: id })
+
+        if (query._tipoObjeto == "Personal") {
+            tmpPersona = new Persona(query._id,
+                                    query._nombre,
+                                    query._telefono,
+                                    query._direccion,
+                                    query._capital,
+                                    query._ingresos,
+                                    query._comercial)
+
+            let query2 = await Emp.findOne({ _id: tmpPersona.comercial })
+            tmpComercial = new Comercial(query2._id,
+                query2._nombre,
+                query2._telefono,
+                query2._direccion,
+                query2._iban,
+                query2._sueldo,
+                query2._fecha,
+                query2._horas)
+
+            let renta = tmpPersona.renta()
+            let salario = tmpComercial.salario()
+            let total = (renta - salario).toString()
+            res.send(total)
+            
+        } else if (query._tipoObjeto == "Empresarial") {
+            res.send('Solo se permiten clientes personales.')
+        }
+        await db.desconectarBD()
+    }
+
+    private crearPrestamo = async (req: Request, res: Response) => {
+        await db.conectarBD()
+
+        const dniCli = req.params.id
+        const prestamo = parseInt(req.params.prestamo)
+        let tmpCliente: Cliente
+        let dCliente: tCliente2
+        let interes: number
+        let fecha: Date = new Date()
+        let plazo: Date
+        let query: any = await Cli.find({ _id: dniCli })
+
+        let sSchema: any
+        let sSchemaReg: tRegistro = {
+            _idComercial: null,
+            _idCliente: null,
+            _capitalCliente: null,
+            _prestamo: null,
+            _interes: null,
+            _plazo: null,
+        }
+
+        for (dCliente of query) {
+            if (dCliente._tipoObjeto == "Personal") {
+                tmpCliente = new Persona(dCliente._id,
+                                        dCliente._nombre,
+                                        dCliente._telefono,
+                                        dCliente._direccion,
+                                        dCliente._capital,
+                                        dCliente._ingresos,
+                                        dCliente._comercial)
+
+                if (prestamo < 10000) {
+                    interes = 0.05
+                    fecha.setMonth(fecha.getMonth() + 6)
+                    plazo = fecha
+
+                } else if (prestamo < 50000) {
+                    interes = 0.07
+                    fecha.setFullYear(fecha.getFullYear() + 2)
+                    plazo = fecha
+
+                } else {
+                    interes = 0.09
+                    fecha.setFullYear(fecha.getFullYear() + 10)
+                    plazo = fecha
+                }
+
+                sSchemaReg._idComercial = dCliente._comercial
+                sSchemaReg._idCliente = dCliente._id
+                sSchemaReg._capitalCliente = dCliente._capital
+                sSchemaReg._prestamo = prestamo
+                sSchemaReg._interes = interes
+                sSchemaReg._plazo = plazo
+
+                sSchema = new Reg(sSchemaReg)
+                await sSchema.save()
+                .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
+                .catch((err: any) => res.send('Error: ' + err))
+                }
+        }
+
+        await db.desconectarBD()
+    }
+
     misRutas() {
         this._router.get('/', this.index)
         this._router.get('/buscar/:id', this.buscarComercial)
@@ -179,6 +283,8 @@ class DatoRoutes {
         this._router.delete('/borrar/:id', this.borrarCliente)
         this._router.post('/salario/:id', this.calcularSalario)
         this._router.post('/renta/:id', this.calcularRenta)
+        this._router.post('/ganancia/:id', this.mediaGanancia)
+        this._router.post('/prestamo/:id/:prestamo', this.crearPrestamo)
     }
 }
 
@@ -186,7 +292,7 @@ const obj = new DatoRoutes()
 obj.misRutas()
 export const routes = obj.router
 
-//Construccion del index    
+//Construccion del index
 let title = '<h1>API Banco</h1><br>'
 let explicacion = '<p>Para más información: <a href="https://github.com/SanchezGarciaEmilio/220110_api-rest-banco">Github</a></p>'
 let html = title + explicacion  
