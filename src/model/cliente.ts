@@ -27,8 +27,7 @@ const clienteSchema = new Schema({
     minimun: 0
   },
   _plan: {
-    type: String,
-    required: [ "1", "2", "3" ]
+    type: String
   },
   _comercial: {
     type: String,

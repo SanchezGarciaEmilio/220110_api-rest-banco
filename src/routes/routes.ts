@@ -43,11 +43,11 @@ class DatoRoutes {
     }
 
     private crearCliente = async (req: Request, res: Response) => {
-        const { id, tipoObjeto, nombre, telefono, direccion, capital, ingresos } = req.body
+        const { id, nombre, telefono, direccion, capital, ingresos } = req.body
         await db.conectarBD()
         const dSchema = {
             _id: id,
-            _tipoObjeto: tipoObjeto,
+            _tipoObjeto: "Personal",
             _nombre: nombre,
             _telefono: telefono,
             _direccion: direccion,
