@@ -2,6 +2,9 @@
   "name": "220110_api-rest",
   "version": "1.0.0",
   "description": "API Rest Banco",
+  "engines": {
+    "npm": "14.17.6"
+  },
   "main": "./build/server.js",
   "scripts": {
     "clean": "npx rimraf build",
