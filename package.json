@@ -9,9 +9,9 @@
   "main": "./build/server.js",
   "scripts": {
     "clean": "npx rimraf build",
-    "build": "cls && npm run clean && npx tsc",
-    "start": "cls && node ./build/server.js",
-    "dev": "cls && nodemon ./build/server.js"
+    "build": "npm run clean && npx tsc",
+    "start": "node ./build/server.js",
+    "dev": "nodemon ./build/server.js"
   },
   "author": "Emilio Sanchez",
   "license": "ISC",
