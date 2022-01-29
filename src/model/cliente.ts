@@ -4,7 +4,6 @@ import { Schema, model } from "mongoose";
 const clienteSchema = new Schema({
   _id: {
     type: String,
-    required: true,
     unique: true
   },
   _tipoObjeto: {
