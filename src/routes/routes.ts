@@ -312,8 +312,8 @@ class DatoRoutes {
 
         const id = req.params.id
         await Cli.findOneAndDelete({ _id: id })
-        .then((doc: any) => res.send('Eliminado correctamente.'))
-        .catch((err: any) => res.send('Error: ' + err))
+        //.then((doc: any) => res.send('Eliminado correctamente.'))
+        //.catch((err: any) => res.send('Error: ' + err))
 
         await db.desconectarBD()
     }
