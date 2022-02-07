@@ -7,7 +7,7 @@ export class Persona extends Cliente {
     constructor(id: string,
         nombre: string,
         telefono: string,
-        direccion: {numero: string, calle: string},
+        direccion: { numero: string, calle: string },
         capital: number,
         ingresos: number,
         comercial: string) {
@@ -18,7 +18,7 @@ export class Persona extends Cliente {
     /*---------------Get y set---------------*/
 
     get comercial() {
-       return this._comercial
+        return this._comercial
     }
 
 
@@ -41,6 +41,6 @@ export class Persona extends Cliente {
         }
 
         return ganancias
-        
+
     }
 }

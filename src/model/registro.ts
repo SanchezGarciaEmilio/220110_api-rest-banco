@@ -2,24 +2,24 @@ import { Schema, model } from "mongoose";
 
 //schemas por subclase
 const registroSchema = new Schema({
-  _idComercial: {
-      type: String
-  },
-  _idCliente: {
-      type: String
-  },
-  _capitalCliente: {
-      type: Number,
-  },
-  _prestamo: {
-      type: Number
-  },
-  _interes: {
-      type: Number
-  },
-  _plazo: {
-      type: Date
-  }
+    _idComercial: {
+        type: String
+    },
+    _idCliente: {
+        type: String
+    },
+    _capitalCliente: {
+        type: Number,
+    },
+    _prestamo: {
+        type: Number
+    },
+    _interes: {
+        type: Number
+    },
+    _plazo: {
+        type: Date
+    }
 });
 export const Reg = model("registros", registroSchema);
 

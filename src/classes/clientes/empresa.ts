@@ -8,7 +8,7 @@ export class Empresa extends Cliente {
     constructor(id: string,
         nombre: string,
         telefono: string,
-        direccion: {numero: string, calle: string},
+        direccion: { numero: string, calle: string },
         capital: number,
         ingresos: number,
         plan: string) {
@@ -19,7 +19,7 @@ export class Empresa extends Cliente {
     /*---------------Get y set---------------*/
 
     get plan() {
-       return this._plan
+        return this._plan
     }
 
     /*---------------Métodos---------------*/
@@ -36,9 +36,9 @@ export class Empresa extends Cliente {
         let plan: string = this._plan
 
         if (plan == "1") {
-            ganacias = ganacias + ( ganacias * 0.01 )
+            ganacias = ganacias + (ganacias * 0.01)
         } else if (plan == "2") {
-            ganacias = ganacias + (( ganacias * 0.05 ) / 2 )
+            ganacias = ganacias + ((ganacias * 0.05) / 2)
         } else if (plan == "3") {
             ganacias = ganacias - 100000
         }

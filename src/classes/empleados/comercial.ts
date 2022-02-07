@@ -39,13 +39,13 @@ export class Comercial extends Empleado {
         let horasExtra: number
 
         //si trabaja menos de las horas estipuladas se hace una pequeña reducción de su salario
-        if (horas < 160) { 
+        if (horas < 160) {
             salario = salario - (salario * 0.01)
 
-        //se da un aumento por hora trabajada por encima de lo mínimo
+            //se da un aumento por hora trabajada por encima de lo mínimo
         } else {
             horasExtra = 160 - horas
-            salario = salario + (horasExtra * 12) 
+            salario = salario + (horasExtra * 12)
         }
 
         return Math.round(salario)

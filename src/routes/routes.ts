@@ -141,13 +141,13 @@ class DatoRoutes {
             _id: id,
             _tipoObjeto: "Directivo",
             _nombre: nombre,
-            _telefono: {movil: movil, fijo: fijo},
-            _direccion: {calle: calle, numero: numero},
+            _telefono: { movil: movil, fijo: fijo },
+            _direccion: { calle: calle, numero: numero },
             _iban: iban,
             _sueldo: sueldo,
             _fecha: fecha,
             _nivel: nivel,
-      }
+        }
         const oSchema = new Emp(dSchema)
         await oSchema.save()
             .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
@@ -163,13 +163,13 @@ class DatoRoutes {
             _id: id,
             _tipoObjeto: "Limpiador",
             _nombre: nombre,
-            _telefono: {movil: movil, fijo: fijo},
-            _direccion: {calle: calle, numero: numero},
+            _telefono: { movil: movil, fijo: fijo },
+            _direccion: { calle: calle, numero: numero },
             _iban: iban,
             _sueldo: sueldo,
             _fecha: fecha,
             _empresa: empresa,
-      }
+        }
         const oSchema = new Emp(dSchema)
         await oSchema.save()
             .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
@@ -179,19 +179,19 @@ class DatoRoutes {
     }
 
     private registrarComercial = async (req: Request, res: Response) => {
-        const { id, nombre,  movil, fijo, calle, numero, iban, sueldo, fecha, horas } = req.body
+        const { id, nombre, movil, fijo, calle, numero, iban, sueldo, fecha, horas } = req.body
         await db.conectarBD()
         const dSchema = {
             _id: id,
             _tipoObjeto: "Comercial",
             _nombre: nombre,
-            _telefono: {movil: movil, fijo: fijo},
-            _direccion: {calle: calle, numero: numero},
+            _telefono: { movil: movil, fijo: fijo },
+            _direccion: { calle: calle, numero: numero },
             _iban: iban,
             _sueldo: sueldo,
             _fecha: fecha,
             _horas: horas,
-      }
+        }
         const oSchema = new Emp(dSchema)
         await oSchema.save()
             .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
@@ -201,18 +201,19 @@ class DatoRoutes {
     }
 
     private registrarPersona = async (req: Request, res: Response) => {
-        const { _id, _nombre, _telefono, _calle, _numero, _capital, _ingresos, _comercial } = req.body
+        const { id, nombre, telefono, calle, numero, capital, ingresos, comercial } = req.body
         await db.conectarBD()
         const dSchema = {
-            _id: _id,
+            _id: id,
             _tipoObjeto: "Personal",
-            _nombre: _nombre,
-            _telefono: _telefono,
-            _direccion: {calle: _calle, numero: _numero},
-            _capital: _capital,
-            _ingresos: _ingresos,
-            _comercial: _comercial,
+            _nombre: nombre,
+            _telefono: telefono,
+            _direccion: { calle: calle, numero: numero },
+            _capital: capital,
+            _ingresos: ingresos,
+            _comercial: comercial,
         }
+        console.log(dSchema)
         const oSchema = new Cli(dSchema)
         await oSchema.save()
             .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
@@ -229,7 +230,7 @@ class DatoRoutes {
             _tipoObjeto: "Empresarial",
             _nombre: nombre,
             _telefono: telefono,
-            _direccion: {calle: calle, numero: numero},
+            _direccion: { calle: calle, numero: numero },
             _capital: capital,
             _ingresos: ingresos,
             _plan: plan,
@@ -250,8 +251,8 @@ class DatoRoutes {
             { _id: id },
             {
                 _nombre: nombre,
-                _telefono: {movil: movil, fijo: fijo},
-                _direccion: {calle: calle, numero: numero},
+                _telefono: { movil: movil, fijo: fijo },
+                _direccion: { calle: calle, numero: numero },
                 _iban: iban,
                 _sueldo: sueldo,
                 _fecha: fecha,
@@ -279,7 +280,7 @@ class DatoRoutes {
             {
                 _nombre: nombre,
                 _telefono: telefono,
-                _direccion: {calle: calle, numero: numero},
+                _direccion: { calle: calle, numero: numero },
                 _capital: capital,
                 _ingresos: ingresos,
                 _comercial: comercial,
@@ -301,8 +302,8 @@ class DatoRoutes {
 
         const id = req.params.id
         await Emp.findOneAndDelete({ _id: id })
-        .then((doc: any) => res.send('Eliminado correctamente.'))
-        .catch((err: any) => res.send('Error: ' + err))
+            .then((doc: any) => res.send('Eliminado correctamente.'))
+            .catch((err: any) => res.send('Error: ' + err))
 
         await db.desconectarBD()
     }
@@ -312,8 +313,8 @@ class DatoRoutes {
 
         const id = req.params.id
         await Cli.findOneAndDelete({ _id: id })
-        .then((doc: any) => res.send('Eliminado correctamente.'))
-        .catch((err: any) => res.send('Error: ' + err))
+            .then((doc: any) => res.send('Eliminado correctamente.'))
+            .catch((err: any) => res.send('Error: ' + err))
 
         await db.desconectarBD()
     }
@@ -324,7 +325,7 @@ class DatoRoutes {
         const id = req.params.id
         let tmpEmpleado: Empleado
         const query = await Emp.findOne({ _id: id })
-        
+
         if (query._tipoObjeto == "Directivo") {
             tmpEmpleado = new Directivo(query._id,
                 query._nombre,
@@ -373,23 +374,23 @@ class DatoRoutes {
 
         if (query._tipoObjeto == "Personal") {
             tmpCliente = new Persona(query._id,
-                                    query._nombre,
-                                    query._telefono,
-                                    query._direccion,
-                                    query._capital,
-                                    query._ingresos,
-                                    query._comercial)
+                query._nombre,
+                query._telefono,
+                query._direccion,
+                query._capital,
+                query._ingresos,
+                query._comercial)
             let renta = tmpCliente.renta().toString()
             res.send(renta)
 
         } else if (query._tipoObjeto == "Empresarial") {
             tmpCliente = new Empresa(query._id,
-                                    query._nombre,
-                                    query._telefono,
-                                    query._direccion,
-                                    query._capital,
-                                    query._ingresos,
-                                    query._plan)
+                query._nombre,
+                query._telefono,
+                query._direccion,
+                query._capital,
+                query._ingresos,
+                query._plan)
             let renta = tmpCliente.renta().toString()
             res.send(renta)
         }
@@ -407,12 +408,12 @@ class DatoRoutes {
 
         if (query._tipoObjeto == "Personal") {
             tmpPersona = new Persona(query._id,
-                                    query._nombre,
-                                    query._telefono,
-                                    query._direccion,
-                                    query._capital,
-                                    query._ingresos,
-                                    query._comercial)
+                query._nombre,
+                query._telefono,
+                query._direccion,
+                query._capital,
+                query._ingresos,
+                query._comercial)
 
             let query2 = await Emp.findOne({ _id: tmpPersona.comercial })
             tmpComercial = new Comercial(query2._id,
@@ -428,7 +429,7 @@ class DatoRoutes {
             let salario = tmpComercial.salario()
             let total = (renta - salario).toString()
             res.send(total)
-            
+
         } else if (query._tipoObjeto == "Empresarial") {
             res.send('Solo se permiten clientes personales.')
         }
@@ -469,7 +470,7 @@ class DatoRoutes {
         this._router.post('/empleados/salario/:id', this.calcularSalario)
         this._router.post('/clientes/renta/:id', this.calcularRenta)
         this._router.post('/ganancia/:id', this.mediaGanancia)
-        
+
     }
 }
 

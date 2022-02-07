@@ -3,10 +3,10 @@ import { direccion } from "../classes/empleados/empleado";
 //schemas por subclase
 const empleadoSchema = new Schema({
   _id: {
-        type: String,
-        required: true,
-        unique: true
-    },
+    type: String,
+    required: true,
+    unique: true
+  },
   _tipoObjeto: {
     type: String,
   },
@@ -49,14 +49,14 @@ export type tTrabajadores = {
   _id: string;
   _tipoObjeto: string;
   _nombre: string;
-  _telefono: { movil: string, fijo: string| null };
+  _telefono: { movil: string, fijo: string | null };
   _direccion: direccion[];
   _iban: string;
   _sueldo: number;
   _fecha: Date;
   _nivel: string;
   _empresa: string;
-  _minimo: boolean; 
+  _minimo: boolean;
   _horas: number,
 };
 
@@ -64,7 +64,7 @@ export type tEmpleado = {
   _id: string | null;
   _tipoObjeto: string | null;
   _nombre: string | null;
-  _telefono: { movil: string, fijo: string| null } | null;
+  _telefono: { movil: string, fijo: string | null } | null;
   _direccion: direccion[] | null;
   _iban: string | null;
   _sueldo: number | null;
@@ -75,7 +75,7 @@ export type tDirectivo = {
   _id: string | null;
   _tipoObjeto: string | null;
   _nombre: string | null;
-  _telefono: { movil: string, fijo: string| null } | null;
+  _telefono: { movil: string, fijo: string | null } | null;
   _direccion: direccion[] | null;
   _iban: string | null;
   _sueldo: number | null;
@@ -87,7 +87,7 @@ export type tLimpiador = {
   _id: string | null;
   _tipoObjeto: string | null;
   _nombre: string | null;
-  _telefono: { movil: string, fijo: string| null } | null;
+  _telefono: { movil: string, fijo: string | null } | null;
   _direccion: direccion[] | null;
   _iban: string | null;
   _sueldo: number | null;

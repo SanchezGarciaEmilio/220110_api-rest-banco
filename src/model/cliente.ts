@@ -16,7 +16,7 @@ const clienteSchema = new Schema({
     type: String,
   },
   _direccion: {
-    type: {numero: String, calle: String},
+    type: { numero: String, calle: String },
   },
   _capital: {
     type: Number
@@ -39,7 +39,7 @@ export type tCliente = {
   _tipoObjeto: string | null;
   _nombre: string | null;
   _telefono: string | null;
-  _direccion: {numero: string, calle: string} | null;
+  _direccion: { numero: string, calle: string } | null;
   _capital: number | null;
   _ingresos: number | null;
   _plan: string | null,
@@ -51,7 +51,7 @@ export type tCliente2 = {
   _tipoObjeto: string;
   _nombre: string;
   _telefono: string;
-  _direccion: {numero: string, calle: string};
+  _direccion: { numero: string, calle: string };
   _capital: number;
   _ingresos: number;
   _plan: string,
@@ -63,7 +63,7 @@ export type tPersona = {
   _tipoObjeto: string | null;
   _nombre: string | null;
   _telefono: string | null;
-  _direccion: {numero: string, calle: string} | null;
+  _direccion: { numero: string, calle: string } | null;
   _capital: number | null;
   _ingresos: number | null;
   _comercial: string | null;
@@ -74,7 +74,7 @@ export type tEmpresa = {
   _tipoObjeto: string | null;
   _nombre: string | null;
   _telefono: string | null;
-  _direccion: {numero: string, calle: string} | null;
+  _direccion: { numero: string, calle: string } | null;
   _capital: number | null;
   _ingresos: number | null;
   _plan: string | null;

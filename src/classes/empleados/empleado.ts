@@ -1,7 +1,7 @@
 /*-------------------------Clase de empleados-------------------------*/
 
 export abstract class Empleado {
-    private _id: string; //DNI del empleado
+    private _id: string; //id del empleado
     private _nombre: string;
     private _telefono: { movil: string, fijo: string | null };
     private _direccion: Array<direccion>;
@@ -53,7 +53,7 @@ export abstract class Empleado {
 
     //Todo
     todo() {
-        return `DNI: ${this._id}
+        return `id: ${this._id}
                 Nombre: ${this._nombre}
                 Telefono/s: ${this._telefono}
                 Direccion/es: ${this._direccion}
