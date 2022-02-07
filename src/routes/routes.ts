@@ -201,17 +201,17 @@ class DatoRoutes {
     }
 
     private registrarPersona = async (req: Request, res: Response) => {
-        const { id, nombre, telefono, calle, numero, capital, ingresos, comercial } = req.body
+        const { _id, _nombre, _telefono, _calle, _numero, _capital, _ingresos, _comercial } = req.body
         await db.conectarBD()
         const dSchema = {
-            _id: id,
+            _id: _id,
             _tipoObjeto: "Personal",
-            _nombre: nombre,
-            _telefono: telefono,
-            _direccion: {calle: calle, numero: numero},
-            _capital: capital,
-            _ingresos: ingresos,
-            _comercial: comercial,
+            _nombre: _nombre,
+            _telefono: _telefono,
+            _direccion: {calle: _calle, numero: _numero},
+            _capital: _capital,
+            _ingresos: _ingresos,
+            _comercial: _comercial,
         }
         const oSchema = new Cli(dSchema)
         await oSchema.save()
@@ -312,8 +312,8 @@ class DatoRoutes {
 
         const id = req.params.id
         await Cli.findOneAndDelete({ _id: id })
-        //.then((doc: any) => res.send('Eliminado correctamente.'))
-        //.catch((err: any) => res.send('Error: ' + err))
+        .then((doc: any) => res.send('Eliminado correctamente.'))
+        .catch((err: any) => res.send('Error: ' + err))
 
         await db.desconectarBD()
     }
