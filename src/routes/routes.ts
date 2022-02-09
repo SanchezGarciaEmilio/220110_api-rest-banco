@@ -25,6 +25,20 @@ class DatoRoutes {
         res.send("API Banco")
     }
 
+    private listarEmpleados = async (req: Request, res: Response) => {
+        await db.conectarBD()
+            .then(async (mensaje) => {
+                console.log(mensaje)
+                const query = await Emp.find();
+                res.json(query)
+            })
+            .catch((mensaje) => {
+                res.send(mensaje)
+            })
+
+        db.desconectarBD()
+    }
+
     private listarDirectivos = async (req: Request, res: Response) => {
         await db.conectarBD()
             .then(async (mensaje) => {
@@ -443,6 +457,7 @@ class DatoRoutes {
         this._router.get('/', this.index)
 
         //Funciones de búsqueda
+        this._router.get('/empleados/', this.listarEmpleados)
         this._router.get('/empleados/directivo', this.listarDirectivos)
         this._router.get('/empleados/limpiador', this.listarLimpiadores)
         this._router.get('/empleados/comercial', this.listarComerciales)
