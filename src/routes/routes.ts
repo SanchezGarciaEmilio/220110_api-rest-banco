@@ -457,7 +457,7 @@ class DatoRoutes {
         this._router.get('/', this.index)
 
         //Funciones de búsqueda
-        this._router.get('/empleados/', this.listarEmpleados)
+        this._router.get('/empleados', this.listarEmpleados)
         this._router.get('/empleados/directivo', this.listarDirectivos)
         this._router.get('/empleados/limpiador', this.listarLimpiadores)
         this._router.get('/empleados/comercial', this.listarComerciales)
