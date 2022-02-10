@@ -482,9 +482,9 @@ class DatoRoutes {
         this._router.delete('/clientes/eliminar/:id', this.eliminarCliente)
 
         //Funciones con operaciones
-        this._router.post('/empleados/salario/:id', this.calcularSalario)
-        this._router.post('/clientes/renta/:id', this.calcularRenta)
-        this._router.post('/ganancia/:id', this.mediaGanancia)
+        this._router.get('/empleados/salario/:id', this.calcularSalario)
+        this._router.get('/clientes/renta/:id', this.calcularRenta)
+        this._router.get('/ganancia/:id', this.mediaGanancia)
 
     }
 }
