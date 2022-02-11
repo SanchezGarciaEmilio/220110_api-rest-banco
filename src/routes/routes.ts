@@ -124,7 +124,7 @@ class DatoRoutes {
                 const query = await Cli.find({ _tipoObjeto: { $eq: "Personal" } });
                 console.log('then')
                 res.json(query)
-                
+
             })
             .catch((mensaje) => {
                 console.log('catch')
@@ -392,15 +392,7 @@ class DatoRoutes {
                 const query = await Cli.find({})
 
                 for (dCliente of query) {
-                    if (dCliente._tipoObjeto == "Personal") {
-                        tmpCliente = new Persona(dCliente._id,
-                            dCliente._nombre,
-                            dCliente._telefono,
-                            dCliente._direccion,
-                            dCliente._capital,
-                            dCliente._ingresos,
-                            dCliente._comercial)
-                    } else {
+                    if (dCliente._tipoObjeto == "Empresarial") {
                         tmpCliente = new Empresa(dCliente._id,
                             dCliente._nombre,
                             dCliente._telefono,
@@ -408,22 +400,23 @@ class DatoRoutes {
                             dCliente._capital,
                             dCliente._ingresos,
                             dCliente._plan)
-                    }
-                    console.log(tmpCliente)
 
-                    let rentaT: number = 0
-                    rentaT = tmpCliente.renta()
+                        console.log(tmpCliente)
 
-                    let dRenta: tRenta = {
-                        _id: null,
-                        _nombre: null,
-                        _renta: null
+                        let rentaT: number = 0
+                        rentaT = tmpCliente.renta()
+
+                        let dRenta: tRenta = {
+                            _id: null,
+                            _nombre: null,
+                            _renta: null
+                        }
+
+                        dRenta._id = tmpCliente.id
+                        dRenta._nombre = tmpCliente.nombre
+                        dRenta._renta = rentaT
+                        arrayRenta.push(dRenta)
                     }
-                    
-                    dRenta._id = tmpCliente.id
-                    dRenta._nombre = tmpCliente.nombre
-                    dRenta._renta = rentaT
-                    arrayRenta.push(dRenta)
                 }
 
                 res.json(arrayRenta)
