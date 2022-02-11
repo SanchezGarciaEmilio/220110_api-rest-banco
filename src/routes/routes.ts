@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express'
 import { db } from '../database/database'
 import { Cli, tCliente2 } from '../model/cliente'
 import { Emp } from '../model/empleado'
-import { Reg, tRegistro } from '../model/registro'
+import { Reg, tRegistro, oSueldo } from '../model/registro'
 import { Empleado } from "../classes/empleados/empleado";
 import { Directivo } from "../classes/empleados/directivo";
 import { Limpiador } from "../classes/empleados/limpiador";
@@ -382,32 +382,49 @@ class DatoRoutes {
     private calcularRenta = async (req: Request, res: Response) => {
         await db.conectarBD()
 
-        const id = req.params.id
         let tmpCliente: Cliente
-        const query = await Cli.findOne({ _id: id })
+        let arraySueldo: Array<oSueldo>
+        const query = await Cli.find({})
 
-        if (query._tipoObjeto == "Personal") {
-            tmpCliente = new Persona(query._id,
-                query._nombre,
-                query._telefono,
-                query._direccion,
-                query._capital,
-                query._ingresos,
-                query._comercial)
-            let renta = tmpCliente.renta().toString()
-            res.send(renta)
 
-        } else if (query._tipoObjeto == "Empresarial") {
-            tmpCliente = new Empresa(query._id,
-                query._nombre,
-                query._telefono,
-                query._direccion,
-                query._capital,
-                query._ingresos,
-                query._plan)
-            let renta = tmpCliente.renta().toString()
-            res.send(renta)
-        }
+        query.forEach(element => {
+
+            if (element._tipoObjeto == "Personal") {
+                tmpCliente = new Persona(element._id,
+                    element._nombre,
+                    element._telefono,
+                    element._direccion,
+                    element._capital,
+                    element._ingresos,
+                    element._comercial)
+            } else if (element._tipoObjeto == "Empresarial") {
+                tmpCliente = new Empresa(element._id,
+                    element._nombre,
+                    element._telefono,
+                    element._direccion,
+                    element._capital,
+                    element._ingresos,
+                    element._plan)
+            }
+
+            let sueldoT: number = 0
+            sueldoT = tmpCliente.renta()
+
+            let dSueldo: oSueldo = {
+                _id: null,
+                _nombre: null,
+                _sueldo: null
+            }
+            dSueldo._id = element._id
+            dSueldo._nombre = element._nombre
+            dSueldo._sueldo = sueldoT
+            arraySueldo.push(dSueldo)
+
+        })
+
+        res.json()
+
+
 
         await db.desconectarBD()
     }
@@ -483,7 +500,7 @@ class DatoRoutes {
 
         //Funciones con operaciones
         this._router.get('/empleados/salario/:id', this.calcularSalario)
-        this._router.get('/clientes/renta/:id', this.calcularRenta)
+        this._router.get('/clientes/renta', this.calcularRenta)
         this._router.get('/ganancia/:id', this.mediaGanancia)
 
     }

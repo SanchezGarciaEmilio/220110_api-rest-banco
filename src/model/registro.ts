@@ -31,3 +31,9 @@ export type tRegistro = {
     _interes: number | null,
     _plazo: Date | null,
 }
+
+export type oSueldo = {
+    _id: String | null,
+    _nombre: String | null,
+    _sueldo: Number | null
+}
