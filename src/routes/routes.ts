@@ -528,7 +528,7 @@ class DatoRoutes {
         this._router.post('/empleados/registrarComercial', this.registrarComercial)
         this._router.post('/clientes/registrarPersona', this.registrarPersona)
         this._router.post('/clientes/registrarEmpresa', this.registrarEmpresa)
-        this._router.post('/registro/', this.crearRegistro)
+        this._router.post('/registro', this.crearRegistro)
 
         //Funciones de actualización
         this._router.put('/empleados/actualizar/:id', this.actualizarEmpleado)
