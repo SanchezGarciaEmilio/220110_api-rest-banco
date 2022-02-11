@@ -32,8 +32,8 @@ export type tRegistro = {
     _plazo: Date | null,
 }
 
-export type oSueldo = {
+export type tRenta = {
     _id: String | null,
     _nombre: String | null,
-    _sueldo: Number | null
+    _renta: Number | null
 }

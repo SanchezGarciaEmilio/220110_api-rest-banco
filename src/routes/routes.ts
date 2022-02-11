@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express'
 import { db } from '../database/database'
 import { Cli, tCliente2 } from '../model/cliente'
 import { Emp } from '../model/empleado'
-import { Reg, tRegistro, oSueldo } from '../model/registro'
+import { Reg, tRegistro, tRenta } from '../model/registro'
 import { Empleado } from "../classes/empleados/empleado";
 import { Directivo } from "../classes/empleados/directivo";
 import { Limpiador } from "../classes/empleados/limpiador";
@@ -122,9 +122,12 @@ class DatoRoutes {
                 const valor = req.params.id
                 console.log(mensaje)
                 const query = await Cli.find({ _tipoObjeto: { $eq: "Personal" } });
+                console.log('then')
                 res.json(query)
+                
             })
             .catch((mensaje) => {
+                console.log('catch')
                 res.send(mensaje)
             })
 
@@ -380,51 +383,55 @@ class DatoRoutes {
     }
 
     private calcularRenta = async (req: Request, res: Response) => {
+        console.log('test')
         await db.conectarBD()
+            .then(async (mensaje) => {
+                let tmpCliente: Cliente
+                let dCliente: tCliente2
+                let arrayRenta: Array<tRenta> = []
+                const query = await Cli.find({})
 
-        let tmpCliente: Cliente
-        let arraySueldo: Array<oSueldo>
-        const query = await Cli.find({})
+                for (dCliente of query) {
+                    if (dCliente._tipoObjeto == "Personal") {
+                        tmpCliente = new Persona(dCliente._id,
+                            dCliente._nombre,
+                            dCliente._telefono,
+                            dCliente._direccion,
+                            dCliente._capital,
+                            dCliente._ingresos,
+                            dCliente._comercial)
+                    } else {
+                        tmpCliente = new Empresa(dCliente._id,
+                            dCliente._nombre,
+                            dCliente._telefono,
+                            dCliente._direccion,
+                            dCliente._capital,
+                            dCliente._ingresos,
+                            dCliente._plan)
+                    }
+                    console.log(tmpCliente)
 
+                    let rentaT: number = 0
+                    rentaT = tmpCliente.renta()
 
-        query.forEach(element => {
+                    let dRenta: tRenta = {
+                        _id: null,
+                        _nombre: null,
+                        _renta: null
+                    }
+                    
+                    dRenta._id = tmpCliente.id
+                    dRenta._nombre = tmpCliente.nombre
+                    dRenta._renta = rentaT
+                    arrayRenta.push(dRenta)
+                }
 
-            if (element._tipoObjeto == "Personal") {
-                tmpCliente = new Persona(element._id,
-                    element._nombre,
-                    element._telefono,
-                    element._direccion,
-                    element._capital,
-                    element._ingresos,
-                    element._comercial)
-            } else if (element._tipoObjeto == "Empresarial") {
-                tmpCliente = new Empresa(element._id,
-                    element._nombre,
-                    element._telefono,
-                    element._direccion,
-                    element._capital,
-                    element._ingresos,
-                    element._plan)
-            }
-
-            let sueldoT: number = 0
-            sueldoT = tmpCliente.renta()
-
-            let dSueldo: oSueldo = {
-                _id: null,
-                _nombre: null,
-                _sueldo: null
-            }
-            dSueldo._id = element._id
-            dSueldo._nombre = element._nombre
-            dSueldo._sueldo = sueldoT
-            arraySueldo.push(dSueldo)
-
-        })
-
-        res.json()
-
-
+                res.json(arrayRenta)
+            })
+            .catch((mensaje) => {
+                console.log('test')
+                res.send(mensaje)
+            })
 
         await db.desconectarBD()
     }
@@ -480,6 +487,7 @@ class DatoRoutes {
         this._router.get('/empleados/comercial', this.listarComerciales)
         this._router.get('/empleados/:id', this.buscarEmpleado)
         this._router.get('/clientes/persona', this.listarPersonas)
+        this._router.get('/clientes/renta', this.calcularRenta)
         this._router.get('/clientes/empresa', this.listarEmpresas)
         this._router.get('/clientes/:id', this.buscarClientes)
 
@@ -499,8 +507,8 @@ class DatoRoutes {
         this._router.delete('/clientes/eliminar/:id', this.eliminarCliente)
 
         //Funciones con operaciones
+
         this._router.get('/empleados/salario/:id', this.calcularSalario)
-        this._router.get('/clientes/renta', this.calcularRenta)
         this._router.get('/ganancia/:id', this.mediaGanancia)
 
     }
