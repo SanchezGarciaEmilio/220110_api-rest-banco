@@ -260,6 +260,44 @@ class DatoRoutes {
         db.desconectarBD()
     }
 
+    private crearRegistro = async (req: Request, res: Response) => {
+        const { idComercial, idCliente, capitalCliente, prestamo } = req.body
+        let interes: number
+        let plazo: Date
+        let fecha: Date = new Date()
+        if (prestamo < 10000) {
+            interes = 0.05
+            fecha.setMonth(fecha.getMonth() + 6)
+            plazo = fecha
+
+        } else if (prestamo < 50000) {
+            interes = 0.07
+            fecha.setFullYear(fecha.getFullYear() + 2)
+            plazo = fecha
+
+        } else {
+            interes = 0.09
+            fecha.setFullYear(fecha.getFullYear() + 10)
+            plazo = fecha
+        }
+
+        await db.conectarBD()
+        const dSchema = {
+            _idComercial: idComercial,
+            _idCliente: idCliente,
+            _capitalCliente: capitalCliente,
+            _prestamo: prestamo,
+            _interes: interes,
+            _plazo: plazo,
+        }
+        const oSchema = new Reg(dSchema)
+        await oSchema.save()
+            .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
+            .catch((err: any) => res.send('Error: ' + err))
+
+        db.desconectarBD()
+    }
+
     private actualizarEmpleado = async (req: Request, res: Response) => {
         await db.conectarBD()
         const id = req.params.id
@@ -490,6 +528,7 @@ class DatoRoutes {
         this._router.post('/empleados/registrarComercial', this.registrarComercial)
         this._router.post('/clientes/registrarPersona', this.registrarPersona)
         this._router.post('/clientes/registrarEmpresa', this.registrarEmpresa)
+        this._router.post('/registro/', this.crearRegistro)
 
         //Funciones de actualización
         this._router.put('/empleados/actualizar/:id', this.actualizarEmpleado)
