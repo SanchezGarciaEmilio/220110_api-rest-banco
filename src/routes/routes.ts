@@ -122,12 +122,10 @@ class DatoRoutes {
                 const valor = req.params.id
                 console.log(mensaje)
                 const query = await Cli.find({ _tipoObjeto: { $eq: "Personal" } });
-                console.log('then')
                 res.json(query)
 
             })
             .catch((mensaje) => {
-                console.log('catch')
                 res.send(mensaje)
             })
 
@@ -143,6 +141,21 @@ class DatoRoutes {
                     [{ $match: { _id: valor } }]
                 );
                 res.json(query)
+            })
+            .catch((mensaje) => {
+                res.send(mensaje)
+            })
+
+        db.desconectarBD()
+    }
+
+    private listarPrestamos = async (req: Request, res: Response) => {
+        await db.conectarBD()
+            .then(async (mensaje) => {
+                console.log(mensaje)
+                const query = await Reg.find();
+                res.json(query)
+
             })
             .catch((mensaje) => {
                 res.send(mensaje)
@@ -521,6 +534,7 @@ class DatoRoutes {
         this._router.get('/clientes/renta', this.calcularRenta)
         this._router.get('/clientes/empresa', this.listarEmpresas)
         this._router.get('/clientes/:id', this.buscarClientes)
+        this._router.get('/prestamos', this.listarPrestamos)
 
         //Funciones de creación
         this._router.post('/empleados/registrarDirectivo', this.registrarDirectivo)
